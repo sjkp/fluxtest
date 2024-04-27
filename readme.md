@@ -59,3 +59,14 @@ flux create kustomization podinfo \
   --health-check-timeout=3m \
   --export > ./clusters/maccluster/podinfo-kustomization.yaml
 ```
+
+# Add ability to pull Docker Images 
+flux bootstrap github \
+  --token-auth \
+  --components-extra=image-reflector-controller,image-automation-controller \
+  --owner=$GITHUB_USER \
+  --repository=fluxtest \
+  --branch=addcomponents \
+  --path=clusters/maccluster \
+  --read-write-key \
+  --personal
