@@ -35,3 +35,27 @@ flux bootstrap github --token-auth \
   --path=./clusters/maccluster \
   --personal
 ```
+
+
+# Add info about an application with Flux
+```
+flux create source git podinfo \
+  --url=https://github.com/stefanprodan/podinfo \
+  --branch=master \
+  --interval=1m \
+  --export > ./clusters/maccluster/podinfo-source.yaml
+```
+
+# Install the application with Flux
+```
+flux create kustomization podinfo \
+  --target-namespace=default \
+  --source=podinfo \
+  --path="./kustomize" \
+  --prune=true \
+  --wait=true \
+  --interval=30m \
+  --retry-interval=2m \
+  --health-check-timeout=3m \
+  --export > ./clusters/maccluster/podinfo-kustomization.yaml
+```
